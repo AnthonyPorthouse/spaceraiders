@@ -6,30 +6,33 @@ type AuthContext = {
 };
 
 export const AuthContext = createContext<AuthContext>({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setToken: (_) => {},
 });
 
-AuthContext.displayName = 'AuthContext';
+AuthContext.displayName = "AuthContext";
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | undefined>(localStorage.getItem('sr_token') ?? undefined);
+  const [token, setToken] = useState<string | undefined>(
+    localStorage.getItem("sr_token") ?? undefined,
+  );
 
   function updateToken(token: string | undefined) {
     if (!token) {
-        localStorage.removeItem('sr_token');
-        setToken(token);
-        return
+      localStorage.removeItem("sr_token");
+      setToken(token);
+      return;
     }
 
-    localStorage.setItem('sr_token', token);
-    setToken(token)
+    localStorage.setItem("sr_token", token);
+    setToken(token);
   }
 
   return (
     <AuthContext.Provider
       value={{
         token,
-        setToken: updateToken
+        setToken: updateToken,
       }}
     >
       {children}

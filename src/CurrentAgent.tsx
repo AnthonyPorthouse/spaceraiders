@@ -4,33 +4,35 @@ import useAgent from "./hooks/useAgent";
 import useAuth from "./hooks/useAuth";
 
 export default function CurrentAgent() {
-    const { token } = useAuth();
-    const { callsign, setCallsign, faction, setFaction } = useAgent();
+  const { token } = useAuth();
+  const { callsign, setCallsign, faction, setFaction } = useAgent();
 
-    const agentQuery = useQuery({
-        queryKey: ["agent", token],
-        queryFn: async () => {
-          const data = await getMyAgent(token!);
+  const agentQuery = useQuery({
+    queryKey: ["agent", token],
+    queryFn: async () => {
+      const data = await getMyAgent(token!);
 
-          const { symbol, startingFaction } = data
+      const { symbol, startingFaction } = data;
 
-          setCallsign(symbol);
-          setFaction(startingFaction);
+      setCallsign(symbol);
+      setFaction(startingFaction);
 
-          return data;
-        },
-        enabled: token !== undefined && callsign === "",
-      });
+      return data;
+    },
+    enabled: token !== undefined && callsign === "",
+  });
 
-      if (!token) {
-        return null;
-      }
+  if (!token) {
+    return null;
+  }
 
-      if (agentQuery.isSuccess) {
-        return <div>
+  if (agentQuery.isSuccess) {
+    return (
+      <div>
         Current Agent: {callsign} Faction: {faction}
       </div>
-      }
+    );
+  }
 
-    return <div> Loading </div>
+  return <div> Loading </div>;
 }

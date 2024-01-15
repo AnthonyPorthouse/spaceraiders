@@ -9,8 +9,10 @@ type AgentContext = {
 
 export const AgentContext = createContext<AgentContext>({
   callsign: "",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setCallsign(_) {},
   faction: "",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setFaction(_) {},
 });
 

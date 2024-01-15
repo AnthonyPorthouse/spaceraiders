@@ -59,28 +59,31 @@ function App() {
             }}
           />
 
-          {factions.isLoading && <select disabled><option>Loading</option></select>}
-          {factions.isSuccess && <select id="faction" name="faction" value={faction} onChange={(e) => {
-            setFaction(e.currentTarget.value as FactionSymbol);
-          }}>
-            {factions.data.map((faction) => <option key={faction.symbol} value={faction.symbol}>{faction.name}</option>)}
-            </select>}
-
-          <input
-            type="text"
-            name="faction"
-            id="faction"
-            value={faction}
-            onChange={(e) => {
-
-            }}
-          />
+          {factions.isLoading && (
+            <select disabled>
+              <option>Loading</option>
+            </select>
+          )}
+          {factions.isSuccess && (
+            <select
+              id="faction"
+              name="faction"
+              value={faction}
+              onChange={(e) => {
+                setFaction(e.currentTarget.value as FactionSymbol);
+              }}
+            >
+              {factions.data.map((faction) => (
+                <option key={faction.symbol} value={faction.symbol}>
+                  {faction.name}
+                </option>
+              ))}
+            </select>
+          )}
 
           <button>Create Agent</button>
         </form>
       )}
-
-
     </main>
   );
 }
