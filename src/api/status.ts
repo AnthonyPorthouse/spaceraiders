@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Temporal } from "temporal-polyfill";
 import { BASE_URL } from "./base";
+import { Status } from "./types";
 
 export type StatusResponse = {
   status: string;
@@ -10,18 +11,6 @@ export type StatusResponse = {
 
   serverResets: {
     next: string;
-    frequency: string;
-  };
-};
-
-export type Status = {
-  status: string;
-  version: string;
-  resetDate: Temporal.PlainDate;
-  description: string;
-
-  serverResets: {
-    next: Temporal.Instant;
     frequency: string;
   };
 };

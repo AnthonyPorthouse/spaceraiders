@@ -1,3 +1,5 @@
+import { Temporal } from "temporal-polyfill";
+
 export type APIResponse<T> = {
   data: T;
 };
@@ -47,4 +49,16 @@ export type Faction = {
   headquarters: string;
   isRecruiting: boolean;
   traits: string[];
+};
+
+export type Status = {
+  status: string;
+  version: string;
+  resetDate: Temporal.PlainDate;
+  description: string;
+
+  serverResets: {
+    next: Temporal.Instant;
+    frequency: string;
+  };
 };
