@@ -10,14 +10,14 @@ const queryClient = new QueryClient();
 export default function Providers({ children }: { children: ReactNode }) {
   return (
     <CookiesProvider defaultSetOptions={{ sameSite: "strict" }}>
-      <AuthProvider>
-        <AgentProvider>
-          <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <AgentProvider>
             <ReactQueryDevtools initialIsOpen={false} />
             {children}
-          </QueryClientProvider>
-        </AgentProvider>
-      </AuthProvider>
+          </AgentProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </CookiesProvider>
   );
 }
