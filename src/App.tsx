@@ -100,7 +100,9 @@ function App() {
         </form>
       )}
 
-      {contracts.isSuccess && <div>Current number of contracts: {contracts.data.length}</div>}
+      {contracts.isSuccess && (
+        <div>Current number of contracts: {contracts.data.length}</div>
+      )}
     </main>
   );
 }
