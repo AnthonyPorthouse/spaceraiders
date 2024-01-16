@@ -1,6 +1,8 @@
 import { Temporal } from "temporal-polyfill";
 import { Status } from "../api/types";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Tooltip } from "react-tooltip";
+import { createPortal } from "react-dom";
 
 export default function Version({ status }: { status: Status }) {
   const [now, setNow] = useState<Temporal.Instant>(Temporal.Now.instant());
@@ -45,14 +47,21 @@ export default function Version({ status }: { status: Status }) {
     <div className="flex flex-col">
       <span>{status.version}</span>
 
-      <progress
-        aria-label="Time remaining until next server reset"
-        title={`Next Server Reset: ${timeUntilReset.toLocaleString()}`}
-        value={progress}
-        max={100}
-      >
-        {timeUntilReset.toLocaleString()}
-      </progress>
+      <a data-tooltip-id="tooltip" className="block">
+        <progress
+          aria-label="Time remaining until next server reset"
+          value={progress}
+          max={100}
+        >
+          {timeUntilReset.toLocaleString()}
+        </progress>
+      </a>
+      {createPortal(
+        <Tooltip id="tooltip">
+          Next Server Reset: {timeUntilReset.toLocaleString()}
+        </Tooltip>,
+        document.body,
+      )}
     </div>
   );
 }

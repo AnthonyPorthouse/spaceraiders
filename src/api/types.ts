@@ -62,3 +62,25 @@ export type Status = {
     frequency: string;
   };
 };
+
+export type Contract = {
+  id: string;
+  factionSymbol: FactionSymbol;
+  type: "PROCUREMENT" | "TRANSPORT" | "SHUTTLE";
+  terms: {
+    deadline: Temporal.Instant;
+    payment: {
+      onAccepted: number;
+      onFulfilled: number;
+    };
+    deliver: {
+      tradeSymbol: string;
+      destinationSymbol: string;
+      unitsRequired: number;
+      unitsFulfilled: number;
+    }[];
+  };
+  accepted: boolean;
+  fulfilled: boolean;
+  deadlineToAccept: Temporal.Instant;
+};

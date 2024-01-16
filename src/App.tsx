@@ -8,6 +8,7 @@ import type { FactionSymbol } from "./api/types";
 import CurrentAgent from "./CurrentAgent";
 import useFactions from "./hooks/useFactions";
 import Navigation from "./Navigation";
+import useMyContracts from "./hooks/useMyContracts";
 
 function App() {
   const [callsign, setCallsign] = useState("");
@@ -16,6 +17,7 @@ function App() {
   const auth = useAuth();
   const agent = useAgent();
   const factions = useFactions(1, 20);
+  const contracts = useMyContracts();
 
   function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
@@ -47,43 +49,58 @@ function App() {
 
       <CurrentAgent />
 
-      {!auth.token ?? (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="callsign"
-            id="callsign"
-            value={callsign}
-            onChange={(e) => {
-              setCallsign(e.currentTarget.value);
-            }}
-          />
-
-          {factions.isLoading && (
-            <select disabled>
-              <option>Loading</option>
-            </select>
-          )}
-          {factions.isSuccess && (
-            <select
-              id="faction"
-              name="faction"
-              value={faction}
+      {!auth.token && (
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div className="flex flex-col">
+            <label htmlFor="callsign">Callsign</label>
+            <input
+              className="form-input text-black rounded px-2 py-1"
+              type="text"
+              name="callsign"
+              id="callsign"
+              value={callsign}
               onChange={(e) => {
-                setFaction(e.currentTarget.value as FactionSymbol);
+                setCallsign(e.currentTarget.value);
               }}
-            >
-              {factions.data.map((faction) => (
-                <option key={faction.symbol} value={faction.symbol}>
-                  {faction.name}
-                </option>
-              ))}
-            </select>
-          )}
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="faction">Faction</label>
+            {factions.isLoading && (
+              <select
+                id="faction"
+                name="faction"
+                className="form-select text-black"
+                disabled
+              >
+                <option>Loading</option>
+              </select>
+            )}
+            {factions.isSuccess && (
+              <select
+                className="form-select text-black rounded px-2 py-1"
+                id="faction"
+                name="faction"
+                value={faction}
+                onChange={(e) => {
+                  setFaction(e.currentTarget.value as FactionSymbol);
+                }}
+              >
+                {factions.data.map((faction) => (
+                  <option key={faction.symbol} value={faction.symbol}>
+                    {faction.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
 
           <button>Create Agent</button>
         </form>
       )}
+
+      {contracts.isSuccess && <div>Current number of contracts: {contracts.data.length}</div>}
     </main>
   );
 }
